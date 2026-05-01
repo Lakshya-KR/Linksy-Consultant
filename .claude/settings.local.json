@@ -22,7 +22,12 @@
       "Bash(echo \"tsc exit: $?\")",
       "Bash(NODE_OPTIONS=\"--max-old-space-size=8192\" npm run build)",
       "Bash(npm install *)",
-      "PowerShell(Stop-Process -Id 2768 -Force -ErrorAction SilentlyContinue; Start-Sleep -Milliseconds 800; $p = Get-NetTCPConnection -LocalPort 3000 -State Listen -ErrorAction SilentlyContinue; if \\($p\\) { Write-Output \"still bound by $\\($p.OwningProcess\\)\" } else { Write-Output \"port 3000 free\" })"
+      "PowerShell(Stop-Process -Id 2768 -Force -ErrorAction SilentlyContinue; Start-Sleep -Milliseconds 800; $p = Get-NetTCPConnection -LocalPort 3000 -State Listen -ErrorAction SilentlyContinue; if \\($p\\) { Write-Output \"still bound by $\\($p.OwningProcess\\)\" } else { Write-Output \"port 3000 free\" })",
+      "Bash(curl -s -I \"https://linksy-consultant.vercel.app/api/test-email\")",
+      "Bash(curl -s -o /dev/null -w \"status=%{http_code} age=%{header_age}\\\\nfinal_url=%{url_effective}\\\\n\" \"https://linksy-consultant.vercel.app/api/test-email?v=$\\(date +%s\\)\" -L)",
+      "Bash(curl -sI \"https://linksy-consultant.vercel.app/api/test-email?v=$\\(date +%s\\)\")",
+      "Bash(curl -s -o /dev/null -w \"POST /api/notify -> %{http_code}\\\\n\" -X POST \"https://linksy-consultant.vercel.app/api/notify\" -H \"Content-Type: application/json\" -d '{}')",
+      "Bash(curl -s -o /dev/null -w \"GET /sitemap.xml -> %{http_code}\\\\n\" \"https://linksy-consultant.vercel.app/sitemap.xml\")"
     ]
   }
 }
