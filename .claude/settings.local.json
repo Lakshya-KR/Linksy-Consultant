@@ -1,0 +1,28 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx tsc *)",
+      "Bash(echo \"exit: $?\")",
+      "Bash(NEXT_PUBLIC_SUPABASE_URL=https://placeholder.supabase.co NEXT_PUBLIC_SUPABASE_ANON_KEY=placeholder npx next build)",
+      "Bash(npm run *)",
+      "Bash(taskkill /PID 5904 /F)",
+      "PowerShell(Stop-Process -Id 5904 -Force -ErrorAction SilentlyContinue)",
+      "Bash(curl -s -o /dev/null -w \"GET / -> %{http_code}\\\\n\" http://localhost:3000/)",
+      "Bash(curl -s -o /dev/null -w \"GET /signup -> %{http_code}\\\\n\" http://localhost:3000/signup)",
+      "Bash(curl -s -o /dev/null -w \"GET /login -> %{http_code}\\\\n\" http://localhost:3000/login)",
+      "Bash(curl -s -o /dev/null -w \"GET /propose/scope -> %{http_code}\\\\n\" http://localhost:3000/propose/scope)",
+      "Bash(curl -s http://localhost:3000/propose/scope -L)",
+      "Bash(curl -s -o /dev/null -w \"supabase healthcheck -> %{http_code}\\\\n\" \"https://grgeyxdfzeknheycsfvp.supabase.co/rest/v1/\" -H \"apikey: $\\(grep ^NEXT_PUBLIC_SUPABASE_ANON_KEY 'C:/Users/kumar/OneDrive - BENNETT UNIVERSITY/Desktop/naveen/.env.local')",
+      "Bash(curl -sS -o /dev/null -w \"supabase root -> %{http_code}\\\\n\" \"https://grgeyxdfzeknheycsfvp.supabase.co/\")",
+      "Bash(curl -sS -o /tmp/sb.json -w \"rest -> %{http_code}\\\\n\" \"https://grgeyxdfzeknheycsfvp.supabase.co/rest/v1/profiles?select=id&limit=1\" -H \"apikey: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdyZ2V5eGRmemVrbmhleWNzZnZwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc0NDU0MDYsImV4cCI6MjA5MzAyMTQwNn0.-iOSgUS__MKy2YsWRGXk4k30gscuW0faInrXTcPZ_7Q\")",
+      "Read(//tmp/**)",
+      "Bash(netstat -ano)",
+      "PowerShell(Stop-Process -Id 23740 -Force -ErrorAction SilentlyContinue; Start-Sleep -Milliseconds 500; $still = Get-NetTCPConnection -LocalPort 3000 -State Listen -ErrorAction SilentlyContinue; if \\($still\\) { Write-Output \"still bound by $\\($still.OwningProcess\\)\" } else { Write-Output \"port 3000 free\" })",
+      "Bash(curl -s -o /dev/null -w \"GET /dashboard -> %{http_code}\\\\n\" http://localhost:3000/dashboard)",
+      "Bash(echo \"tsc exit: $?\")",
+      "Bash(NODE_OPTIONS=\"--max-old-space-size=8192\" npm run build)",
+      "Bash(npm install *)",
+      "PowerShell(Stop-Process -Id 2768 -Force -ErrorAction SilentlyContinue; Start-Sleep -Milliseconds 800; $p = Get-NetTCPConnection -LocalPort 3000 -State Listen -ErrorAction SilentlyContinue; if \\($p\\) { Write-Output \"still bound by $\\($p.OwningProcess\\)\" } else { Write-Output \"port 3000 free\" })"
+    ]
+  }
+}
