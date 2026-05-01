@@ -2,7 +2,8 @@
 
 import { createClient } from "@/lib/supabase/server";
 import { proposalSchema, type ProposalDraft } from "@/lib/schemas/proposal";
-import { getSiteUrl } from "@/lib/utils";
+import { sendProjectAlert } from "@/lib/notifications/sendProjectAlert";
+import type { ServiceType } from "@/lib/types";
 
 export async function submitProposal(draft: ProposalDraft) {
   const parsed = proposalSchema.safeParse(draft);
@@ -21,7 +22,6 @@ export async function submitProposal(draft: ProposalDraft) {
     .eq("id", user.id)
     .single();
 
-  // If contact_value was a phone, sync to profile.whatsapp_number for convenience
   if (d.preferred_contact === "whatsapp" || d.preferred_contact === "call") {
     await supabase
       .from("profiles")
@@ -49,19 +49,27 @@ export async function submitProposal(draft: ProposalDraft) {
 
   if (error || !project) return { error: error?.message || "Failed to submit" };
 
-  // Fire-and-forget notifications. Don't block user if they fail.
+  // Send alert email directly — no internal HTTP hop. Visible in Vercel logs.
+  console.log(`[notify] sending project alert · projectId=${project.id} · admin=${process.env.ADMIN_EMAIL}`);
   try {
-    await fetch(`${getSiteUrl()}/api/notify`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        project,
-        contact: d.contact_value,
-        clientName: profile?.full_name,
-      }),
+    const result = await sendProjectAlert({
+      project: {
+        id: project.id,
+        title: project.title,
+        description: project.description,
+        service_type: project.service_type as ServiceType,
+        budget_min: Number(project.budget_min ?? 0),
+        budget_max: Number(project.budget_max ?? 0),
+        timeline_weeks: project.timeline_weeks ?? 0,
+        preferred_contact: project.preferred_contact ?? "",
+      },
+      contact: d.contact_value,
+      clientName: profile?.full_name,
     });
+    console.log(`[notify] result`, result);
   } catch (e) {
-    console.error("Notify dispatch failed", e);
+    console.error("[notify] failed", e);
+    // Don't block the user — project was saved, alert just failed.
   }
 
   return { success: true, projectId: project.id };
